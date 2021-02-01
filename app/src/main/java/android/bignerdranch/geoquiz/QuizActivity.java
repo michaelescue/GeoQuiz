@@ -5,6 +5,7 @@ package android.bignerdranch.geoquiz;
     provides the compatibility support for older versions of Android.
  */
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
 
     // Logging TAG
@@ -64,13 +66,19 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // Call super class constructor before adding additional configuration.
         super.onCreate(savedInstanceState);
+
+        // Set XML activity file name to start hierarchy.
         setContentView(R.layout.activity_main);
         Log.d(TAG, "OnCreate( )");
 
-        /*
-            Wiring up the TextView
-         */
+        // Saved instance check for switching between stopped states (horizontal to vertical, vice versa).
+        if(savedInstanceState != null){
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
+
+        // Wiring up the TextView.
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
 
         updateQuestion();
@@ -91,6 +99,7 @@ public class QuizActivity extends AppCompatActivity {
                     checkAnswer(true);
             }
         });
+
         mFalseButton = (Button) findViewById(R.id.false_button);
         mFalseButton.setOnClickListener(
             /*
@@ -108,9 +117,19 @@ public class QuizActivity extends AppCompatActivity {
                     }
                 });
 
-        /*
-            Wiring up the new button
-         */
+        // Cheat Activity Button
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                // Start the Cheat Activity
+                boolean answerIsTrue = mQuestions[mCurrentIndex].isAnswerTrue();
+                Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+                startActivity(intent);
+            }
+        });
+
+        // Wiring up the new button
         mNextButton = (Button) findViewById(R.id.next_button);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,8 +170,9 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy( )");
     }
 
+    // Overriding onSaveInstanceState event.
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState( )");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
