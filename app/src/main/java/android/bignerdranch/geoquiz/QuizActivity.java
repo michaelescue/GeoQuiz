@@ -5,6 +5,7 @@ package android.bignerdranch.geoquiz;
     provides the compatibility support for older versions of Android.
  */
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,10 +18,17 @@ import android.os.Bundle;
  */
 public class QuizActivity extends AppCompatActivity {
 
+    // Application attributes.
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
     private TextView mQuestionTextView;
+
+    // Logging TAG
+    private static final String TAG = "QuizActivity";
+
+    // Key for Key-Value pair used in saved state bundle.
+    private static final String KEY_INDEX = "index";
 
     // Question Array
     private Question[] mQuestions = new Question[] {
@@ -55,8 +63,10 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "OnCreate( )");
 
         /*
             Wiring up the TextView
@@ -111,6 +121,41 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.d(TAG, "onStart( )");
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d(TAG, "onResume( )");
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause( )");
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d(TAG, "onStop( )");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onStart();
+        Log.d(TAG, "onDestroy( )");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstanceState( )");
+        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+    }
 
 }

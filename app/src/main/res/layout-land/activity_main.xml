@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Horizontal Layout Copy-->
+<!--Must maintaint the same filename between layouts so that the same resourceID can access them.-->
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--              android:layout_width="match_parent"-->
+<!--              android:layout_height="match_parent"-->
+<!--              android:gravity="center"-->
+<!--              android:orientation="vertical">-->
+
+<!--There is no default gravity for Frame layouts.-->
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <!--            android:text="@string/question_text"/>-->
+    <!--            Removed "android:text" from TextView as hard-coded, adding Rid-->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/question_text_view"
+            android:text="question_text_view"/>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/true_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/true_button"/>
+
+            <Button
+                    android:id="@+id/false_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/false_button"/>
+
+            <Button
+                    android:id="@+id/next_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/next_button"/>
+    </LinearLayout>
+
+</FrameLayout>
